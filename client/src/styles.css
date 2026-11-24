@@ -267,3 +267,9 @@
     flex-direction: column;
   }
 }
+
+
+/* Homepage New Arrival promotion */
+.new-arrival-banner{display:grid;grid-template-columns:1fr 1.05fr;gap:34px;align-items:center;margin:28px auto 42px;padding:24px;background:#f2f7f3;border:1px solid #e1ebe3;border-radius:20px;overflow:hidden}
+.new-arrival-copy{padding:18px 20px}.new-arrival-copy .eyebrow{color:#16834a;font-weight:800;letter-spacing:1.5px}.new-arrival-copy h2{font:800 clamp(28px,4vw,44px)/1.12 Manrope,sans-serif;color:#173b2b;margin:14px 0}.new-arrival-copy p{max-width:520px;color:#637469;line-height:1.75}.new-arrival-actions{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-top:24px}.new-arrival-call{color:#174832;font-weight:800;text-decoration:none}.new-arrival-gallery{height:330px;position:relative;border-radius:15px;overflow:hidden;background:#dce8df}.new-arrival-gallery>img{width:100%;height:100%;object-fit:cover;display:block}.new-arrival-arrow{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;border:0;border-radius:50%;background:#ffffffeb;color:#173b2b;font-size:28px;line-height:1;cursor:pointer;box-shadow:0 4px 15px #0002}.new-arrival-arrow.prev{left:14px}.new-arrival-arrow.next{right:14px}.new-arrival-dots{position:absolute;bottom:14px;left:0;right:0;display:flex;justify-content:center;gap:8px}.new-arrival-dots button{width:9px;height:9px;border:0;border-radius:20px;background:#ffffffa8;padding:0;cursor:pointer}.new-arrival-dots button.active{width:25px;background:#fff}
+@media(max-width:760px){.new-arrival-banner{grid-template-columns:1fr;gap:18px;padding:16px;margin:18px auto 28px}.new-arrival-copy{padding:12px 8px}.new-arrival-gallery{height:245px}.new-arrival-copy h2{font-size:32px}.new-arrival-actions{gap:14px}}

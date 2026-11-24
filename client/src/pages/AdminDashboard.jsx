@@ -39,6 +39,7 @@ export default function AdminDashboard() {
   const [products, setProducts] = useState([]);
   const [projects, setProjects] = useState([]);
   const [systems, setSystems] = useState([]);
+  const [newArrival, setNewArrival] = useState({ eyebrow: "NEW ARRIVAL", title: "", description: "", imagesText: "", whatsappMessage: "Hello HAIL MARY, I would like to enquire about your new arrival.", active: false });
 
   const [form, setForm] = useState(emptyProduct);
   const [editing, setEditing] = useState(null);
@@ -55,15 +56,17 @@ export default function AdminDashboard() {
   // Load all admin data
   async function load() {
     try {
-      const [p, s, g] = await Promise.all([
+      const [p, s, g, n] = await Promise.all([
         api("/products/admin/all"),
         api("/systems/admin/all"),
-        api("/projects/admin/all")
+        api("/projects/admin/all"),
+        api("/new-arrival")
       ]);
 
       setProducts(p);
       setSystems(s);
       setProjects(g);
+      setNewArrival({ eyebrow: n.eyebrow || "NEW ARRIVAL", title: n.title || "", description: n.description || "", imagesText: (n.images || []).join("\n"), whatsappMessage: n.whatsappMessage || "Hello HAIL MARY, I would like to enquire about your new arrival.", active: Boolean(n.active) });
       setError("");
     } catch (e) {
       setError(e.message);
@@ -247,6 +250,23 @@ export default function AdminDashboard() {
     }
   }
 
+  // Save homepage new-arrival banner
+  async function saveNewArrival(e) {
+    e.preventDefault();
+    setMessage("");
+    setError("");
+    const payload = {
+      ...newArrival,
+      images: newArrival.imagesText.split("\n").map(x => x.trim()).filter(Boolean).slice(0, 3)
+    };
+    delete payload.imagesText;
+    try {
+      await api("/new-arrival", { method: "PUT", body: JSON.stringify(payload) });
+      setMessage("Homepage new-arrival banner saved successfully.");
+      await load();
+    } catch (e) { setError(e.message); }
+  }
+
   // Save solar system information
   async function saveSystem(e) {
     e.preventDefault();
@@ -327,6 +347,21 @@ export default function AdminDashboard() {
 
         {message && <div className="success">{message}</div>}
         {error && <div className="error">{error}</div>}
+
+        <section className="admin-panel">
+          <h2>Homepage New Arrival Banner</h2>
+          <p className="muted">Manage the promotional banner shown at the top of the default website page. Add up to 3 image URLs; visitors can switch between them.</p>
+          <form className="admin-form" onSubmit={saveNewArrival}>
+            <label>Small label<input value={newArrival.eyebrow} onChange={e => setNewArrival({ ...newArrival, eyebrow: e.target.value })} /></label>
+            <label>Banner heading<input required value={newArrival.title} onChange={e => setNewArrival({ ...newArrival, title: e.target.value })} /></label>
+            <label className="wide">Description<textarea rows="3" value={newArrival.description} onChange={e => setNewArrival({ ...newArrival, description: e.target.value })} /></label>
+            <label className="wide">Image URLs (one URL per line, maximum 3)<textarea required rows="4" placeholder="https://example.com/product-image-1.jpg\nhttps://example.com/product-image-2.jpg" value={newArrival.imagesText} onChange={e => setNewArrival({ ...newArrival, imagesText: e.target.value })} /></label>
+            <label className="wide">WhatsApp enquiry message<textarea rows="2" value={newArrival.whatsappMessage} onChange={e => setNewArrival({ ...newArrival, whatsappMessage: e.target.value })} /></label>
+            <label className="check-label"><input type="checkbox" checked={newArrival.active} onChange={e => setNewArrival({ ...newArrival, active: e.target.checked })} /> Show New Arrival banner on homepage</label>
+            <div className="form-actions"><button className="button">Save New Arrival Banner</button></div>
+          </form>
+          <p className="muted">The enquiry button opens WhatsApp. The phone number is displayed beside it and can be called directly.</p>
+        </section>
 
         {/* Add or edit products */}
         <section className="admin-panel">

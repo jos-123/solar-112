@@ -3,6 +3,7 @@ import Header from "../components/Header.jsx";
 import { api } from "../api.js";
 import SolarSystems from "../components/SolarSystems.jsx";
 import { site } from "../data/site.js";
+import NewArrivalBanner from "../components/NewArrivalBanner.jsx";
 
 const benefits = [
   ["Bill-conscious energy", "Generate electricity from sunlight and reduce the amount of power you need to purchase from the grid."],
@@ -42,6 +43,7 @@ export default function SolarPage() {
   return <>
     <Header />
     <main className="solar-page">
+      <div className="container"><NewArrivalBanner /></div>
       <section className="solar-hero">
         <div className="solar-hero-content">
           <span className="eyebrow light">HAIL MARY SOLAR SOLUTIONS</span>

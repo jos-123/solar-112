@@ -13,6 +13,7 @@ import systemRoutes from "./src/routes/systemRoutes.js";
 import projectRoutes from "./src/routes/projectRoutes.js";
 import User from "./src/models/User.js";
 import reviewRoutes from "./src/routes/reviewRoutes.js";
+import newArrivalRoutes from "./src/routes/newArrivalRoutes.js";
 const app = express();
 app.use(helmet());
 const allowedOrigins = (process.env.CLIENT_URL || "http://localhost:5173").split(",").map((value) => value.trim());
@@ -28,6 +29,7 @@ app.use("/api/products", productRoutes);
 app.use("/api/systems", systemRoutes);
 app.use("/api/projects", projectRoutes);
 app.use("/api/reviews", reviewRoutes);
+app.use("/api/new-arrival", newArrivalRoutes);
 app.use((err, _req, res, _next) => {
   console.error(err);
   res.status(err.status || 500).json({ message: err.message || "Server error" });
